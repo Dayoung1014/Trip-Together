@@ -2,7 +2,7 @@
   <div>
     <h1 class="underline">도서 목록</h1>
     <div style="text-align: right">
-      <button @click="$router.push('/board/write')" class="btn btn-primary">
+      <button @click="$router.push('/hotplace/write')" class="btn btn-primary">
         도서 등록
       </button>
     </div>
@@ -19,18 +19,17 @@
           <tr>
             <th>번호</th>
             <th>제목</th>
-            <th>내용</th>
             <th>작성자</th>
-            <th>조회수</th>
+            <th>방문일</th> 
             <th>작성일</th>
           </tr>
         </thead>
         <tbody>
-          <board-list-item
+          <hotplace-list-item
             v-for="article in articles"
-            :key="article.articleNo"
+            :key="article.id"
             :article="article"
-          ></board-list-item>
+          ></hotplace-list-item>
         </tbody>
       </table>
     </div>
@@ -40,12 +39,12 @@
 
 <script>
 import axios from "axios";
-import BoardListItem from "./BoardListItem.vue";
+import HotplaceListItem from "./HotplaceListItem.vue";
 
 export default {
-  name: "BoardList",
+  name: "HotplaceList",
   components: {
-    BoardListItem,
+    HotplaceListItem,
   },
   data() {
     return {
@@ -53,15 +52,13 @@ export default {
     };
   },
   created() {
-    axios({
-      method: "get",
-      url: "http://localhost:8080/board/",
-      responseType: "json",
-    })
-      .then((data) => {
-        this.articles = data.data;
-      })
-      .catch((error) => console.log(error));
+    axios.get('http://localhost:8080/hotplace/')
+  .then(response => { 
+    this.articles = response.data.data;
+  })
+  .catch(error => {
+    console.error(error);
+  });
   },
 };
 </script>

@@ -9,7 +9,7 @@
         >
           <li>
             <router-link
-              :to="{ name: 'home' }"
+              :to="{ name: 'user' }"
               class="nav-link mx-5 p-3 ps-5 px-2 fs-1"
               style="color: SeaGreen"
               >Enjoy Trip</router-link
@@ -41,7 +41,7 @@
           </li>
           <li>
             <router-link
-              :to="{ name: 'user' }"
+              :to="{ name: 'hotplace' }"
               class="nav-link ps-3 px-2 fs-5"
               style="color: Crimson"
               >핫플 자랑하기</router-link
@@ -103,7 +103,8 @@
                   type="text"
                   class="form-control"
                   id="userid"
-                  name="id"
+                  name="id" 
+                  v-model="id"
                   placeholder="아이디..."
                 />
               </div>
@@ -115,16 +116,16 @@
                   class="form-control"
                   id="userpwd"
                   name="pwd"
+                  v-model="pwd"
                   placeholder="비밀번호..."
                 />
               </div>
               <div class="col-auto text-center">
                 <input
                   class="w-100 mb-2 btn btn-lg rounded-3 btn-primary"
-                  type="submit"
                   id="btnlogin2"
                   value="로그인"
-                  onclick="javascript:login();"
+                  @click="checkLoginValue"
                 />
               </div>
             </form>
@@ -158,6 +159,7 @@
                   id="username"
                   name="name"
                   placeholder="이름..."
+                  v-model="name" 
                 />
               </div>
               <div class="mb-3">
@@ -168,6 +170,7 @@
                   id="userid"
                   name="id"
                   placeholder="아이디..."
+                  v-model="id" 
                 />
               </div>
               <div id="idcheck-result"></div>
@@ -179,6 +182,7 @@
                   id="userpwd"
                   name="pwd"
                   placeholder="비밀번호..."
+                  v-model="pwd" 
                 />
               </div>
               <div class="mb-3">
@@ -188,6 +192,7 @@
                   class="form-control"
                   id="pwdcheck"
                   placeholder="비밀번호확인..."
+                  v-model="pwdcheck" 
                 />
               </div>
               <div class="mb-3">
@@ -199,6 +204,7 @@
                     id="emailid"
                     name="email"
                     placeholder="이메일아이디"
+                    v-model="email" 
                   />
                 </div>
               </div>
@@ -207,11 +213,9 @@
                   type="button"
                   id="btn-join"
                   class="btn btn-outline-primary mb-3"
+                  @click="checkJoinValue"
                 >
                   회원가입
-                </button>
-                <button type="button" class="btn btn-outline-success mb-3">
-                  초기화
                 </button>
               </div>
             </form>
@@ -225,6 +229,97 @@
 <script>
 export default {
   name: "TheHeader",
+  data() {
+    return {      
+      name:"",
+      id:"",
+      pwd:"", 
+      pwdcheck:"",
+      email:""
+    };
+  },
+  methods: {
+    // 입력값 체크하기  
+    checkLoginValue() {
+      // 사용자 입력값 체크하기
+      // 작성자아이디, 제목, 내용이 없을 경우 각 항목에 맞는 메세지를 출력
+      let err = true;
+      let msg = "";
+      !this.id && ((msg = "아이디를 입력해주세요"), (err = false), this.$refs.id.focus());
+      err && !this.pwd && ((msg = "비밀번호를 입력해주세요"), (err = false), this.$refs.pwd.focus()); 
+
+      if (!err) alert(msg); 
+      else this.login();
+    },
+    login() {
+      var data = {
+        id: this.id,
+        pwd: this.pwd, 
+      }
+      // 비동기
+      // TODO : 글번호에 해당하는 글정보 등록.
+      console.log(data);
+      fetch("http://localhost:8080/user/login", {
+        method: "POST",
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      .then((response) => response.json())
+      .then((result) => { 
+        if (result.status === 'OK') {
+          console.log('로그인 성공');
+          this.$router.go(0)
+        } else {
+          console.log('로그인 실패');
+          alert("로그인 실패");
+        }
+        });
+      //.then(() => { this.$router.push('/board/list')}); // then() 함수에서의 비동기 처리가 완료된 후에 페이지 이동을 수행
+    }, 
+    checkJoinValue() { 
+      let err = true;
+      let msg = "";
+      !this.name && ((msg = "이름을 입력해주세요"), (err = false), this.$refs.name.focus());
+      err && !this.id && ((msg = "아이디를 입력해주세요"), (err = false), this.$refs.id.focus()); 
+      err && !this.pwd && ((msg = "비밀번호를 입력해주세요"), (err = false), this.$refs.pwd.focus());
+      err && !this.pwdcheck && ((msg = "비밀번호를 재입력해주세요"), (err = false), this.$refs.pwdcheck.focus());
+      err && !this.email && ((msg = "비밀번호를 입력해주세요"), (err = false), this.$refs.email.focus());
+
+      if (!err) alert(msg); 
+      else this.join();
+    },
+    join() {
+      var data = {
+        name : this.name,
+        id: this.id,
+        pwd: this.pwd, 
+        email:this.email,
+      }
+      // 비동기 
+      console.log(data);
+      fetch("http://localhost:8080/user/join", {
+        method: "POST",
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      .then((response) => response.json())
+      .then((result) => { 
+        if (result.status === 'OK') {
+          console.log('회원가입 성공');
+          this.$router.go(0)
+        } else {
+          console.log('회원가입 실패');
+          alert("회원가입 실패");
+        }
+        });
+      //.then(() => { this.$router.push('/board/list')}); // then() 함수에서의 비동기 처리가 완료된 후에 페이지 이동을 수행
+    }, 
+ 
+  },
 };
 </script>
 
@@ -248,3 +343,5 @@ a:hover {
   color: #42b983;
 }
 </style>
+
+

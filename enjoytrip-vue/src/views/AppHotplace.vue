@@ -1,27 +1,15 @@
 <template>
   <div>
-    <h2>Vue를 이용한 게시판</h2>
-    <!-- <board-list></board-list>
-    <board-write></board-write>
-    <board-view :article="article"></board-view>
-    <board-delete></board-delete> -->
+    <h2>Hotplace</h2> 
     <router-view></router-view>
   </div>
 </template>
 
-<script>
-// import BoardList from "@/components/board/BoardList.vue";
-// import BoardWrite from "@/components/board/BoardWrite.vue";
-// import BoardView from "@/components/board/BoardView.vue";
-// import BoardDelete from "@/components/board/BoardDelete.vue";
+<script> 
 
 export default {
-  name: "AppBoard",
-  components : {
-    // BoardList, 
-    // BoardWrite, 
-    // BoardView,
-    // BoardDelete
+  name: "AppHotplace",
+  components : { 
   },
   data() {
     return {

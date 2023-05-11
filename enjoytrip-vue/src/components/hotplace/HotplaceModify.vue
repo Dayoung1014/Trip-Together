@@ -20,7 +20,7 @@
 import axios from "axios";
 
 export default {
-  name: "BoardModify",
+  name: "HotplaceModify",
   data() {
     return {
       data: {

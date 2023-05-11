@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <h2>Login Page입니다.</h2>
-    <div>나중에 로그인 화면 만들거에요!!!</div>
+  <div> 
+    <router-view></router-view>
   </div>
 </template>
 

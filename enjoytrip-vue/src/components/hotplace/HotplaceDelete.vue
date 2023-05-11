@@ -8,17 +8,17 @@
 <script>
 import axios from "axios";
 export default {
-  name: "BoardDelete",
+  name: "HotplaceDelete",
 
   created() {
     this.no = this.$route.params.no;
 
     axios({
       method: "delete",
-      url: `http://localhost:8080/board/${this.no}`,
+      url: `http://localhost:8080/hotplace/${this.no}`,
     });
     setTimeout(() => {
-      this.$router.push("/board");
+      this.$router.push("/hotplace");
     }, 100);
   },
 };

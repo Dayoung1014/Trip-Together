@@ -27,7 +27,7 @@
     </svg>
 
     <div class="container d-flex flex-column">
-      <img src="<%= root %>/img/junimg20.jpg" class="shadow-lg" alt="" />
+      <img src="" class="shadow-lg" alt="" />
       <footer
         class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
       >
