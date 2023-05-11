@@ -1,10 +1,10 @@
 <template>
-  <tr v-on:click="clickView(article.articleno)">
-    <td>{{article.articleno}}</td>
-    <td>{{article.subject}}</td>
-    <td>{{article.userid}}</td>
+  <tr v-on:click="clickView(article.id)">
+    <td>{{article.id}}</td>
+    <td>{{article.title}}</td>
+    <td>{{article.userId}}</td>
     <td>{{article.hit}}</td>
-    <td>{{article.regtime}}</td>
+    <td>{{article.writeTime}}</td>
   </tr>
 </template>
 
@@ -15,9 +15,9 @@ export default {
     article : Object
   },
 methods: { 
-clickView(no) {
+clickView(id) {
   this.$router.push({
-    path: `/board/detail/${no}`
+    path: `/board/detail/${id}`
   });
 },
 },

@@ -45,34 +45,8 @@ export default {
       articles : []
     };
   },
-  created() {
-    // 비동기
-    //TODO : 글목록 얻기.
-    // this.articles = [
-    //   {
-    //     articleNo: 10,
-    //     userName: "안효인",
-    //     subject: "안녕하세요",
-    //     hit: 10,
-    //     registerTime: "2023-05-08 17:03:15",
-    //   },
-    //   {
-    //     articleNo: 9,
-    //     userName: "김싸피",
-    //     subject: "안녕하세요2",
-    //     hit: 102,
-    //     registerTime: "2023-05-08 14:13:15",
-    //   },
-    //   {
-    //     articleNo: 8,
-    //     userName: "박싸피",
-    //     subject: "안녕하세요7",
-    //     hit: 24,
-    //     registerTime: "2023-05-07 11:03:15",
-    //   },
-    // ];
-
-    fetch("http://192.168.208.40:9999/vue/board")
+  created() { 
+    fetch("http://localhost:8080/board")
       .then(response => response.json())
       .then(data => {
         console.log(data);

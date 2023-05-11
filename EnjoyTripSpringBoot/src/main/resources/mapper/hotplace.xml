@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.ssafy.enjoytrip.hotplace.model.mapper.HotplaceMapper">
+
+
+	<resultMap type="hotplaceDto" id="hotplace">
+		<result column="user_id" property="userId"/>
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="content" property="content"/>
+		<result column="visit_time" property="visitTime"/>
+		<result column="write_time" property="writeTime"/> 
+		<result column="data_num" property="dataNum"/>
+	</resultMap>
+	
+ 	<insert id="writeHotplace" parameterType="hotplaceDto">
+		insert into hotplace (user_id, name, content, visit_time, write_time, img, data_num)
+		values (#{userId}, #{name}, #{content}, #{visitTime}, now(), #{img}, #{dataNum})
+	</insert>
+	 
+	<select id="listHotplace" resultMap="hotplace">
+		select *
+		from hotplace 
+	</select>
+
+
+	<update id="modifyHotplace" parameterType="hotplaceDto">
+		update hotplace
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null">name = #{name},</if>
+			<if test="content != null">content = #{content},</if>
+			<if test="visitTime != null">visit_time = #{visitTime},</if> 
+			<if test="img != null">img = #{img},</if>
+			<if test="dataNum != null">data_num = #{dataNum},</if> 
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteHotplace" parameterType="String">
+		delete from hotplace
+		where id = #{id}
+	</delete>
+	 
+	
+	<select id="getHotplace" parameterType="string" resultMap="hotplace">
+		select *
+		from hotplace
+		where id = #{id}
+	</select>
+	
+	<select id="orderByLike" parameterType="string" resultMap="hotplace">
+		select *
+		from hotplace
+		order by id
+	</select>
+	
+	
+	
+</mapper>
