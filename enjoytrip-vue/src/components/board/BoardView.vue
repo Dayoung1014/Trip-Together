@@ -16,7 +16,7 @@
       <div class="view">{{ article.content }}</div>
 
       <div style="padding-top: 15px">
-        <router-link class="btn" :to="'/board/update/' + article.id"
+        <router-link class="btn" :to="'/board/modify/' + article.id"
           >수정</router-link
         >
         <router-link class="btn" :to="'/board/delete/' + article.id"

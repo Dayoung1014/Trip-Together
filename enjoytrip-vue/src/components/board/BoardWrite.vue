@@ -53,13 +53,14 @@ export default {
     registArticle() {
       axios({
         method: "post",
-        url: "http://localhost:8080/board",
+        url: "http://localhost:8080/board/",
         data: this.data,
         redirect: "follow",
       });
 
-      this.$router.push("/board");
-      window.location.reload(true);
+      setTimeout(() => {
+        this.$router.push("/board");
+      }, 100);
     },
 
     moveList() {

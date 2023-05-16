@@ -51,4 +51,9 @@ public class HotplaceServiceImpl implements HotplaceService{
 		return hotplaceMapper.orderByLike(id);
 	}
 
+	@Override
+	public String getHotplacId(HotplaceDto hotplaceDto) throws SQLException {
+		return hotplaceMapper.getHotplacId(hotplaceDto);
+	}
+
 }

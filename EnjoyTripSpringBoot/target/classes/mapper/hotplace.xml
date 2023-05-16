@@ -16,13 +16,15 @@
 	</resultMap>
 	
  	<insert id="writeHotplace" parameterType="hotplaceDto">
-		insert into hotplace (user_id, name, content, visit_time, write_time, img, data_num)
-		values (#{userId}, #{name}, #{content}, #{visitTime}, now(), #{img}, #{dataNum})
+		insert into hotplace (user_id, name, content, visit_time, write_time, data_num)
+		values (#{userId}, #{name}, #{content}, #{visitTime}, now(), #{dataNum})
 	</insert>
 	 
 	<select id="listHotplace" resultMap="hotplace">
-		select * 
-		from hotplace 
+		select user_id, id, name, content, 
+		DATE_FORMAT(visit_time, '%Y-%m-%d') as visit_time, 
+		DATE_FORMAT(write_time, '%Y-%m-%d') as write_time, data_num 
+		from hotplace;
 	</select>
 
 
@@ -31,8 +33,7 @@
 		<trim prefix="set" suffixOverrides=",">
 			<if test="name != null">name = #{name},</if>
 			<if test="content != null">content = #{content},</if>
-			<if test="visitTime != null">visit_time = #{visitTime},</if> 
-			<if test="img != null">img = #{img},</if>
+			<if test="visitTime != null">visit_time = #{visitTime},</if>  
 			<if test="dataNum != null">data_num = #{dataNum},</if> 
 		</trim>
 		where id = #{id}
@@ -45,9 +46,23 @@
 	 
 	
 	<select id="getHotplace" parameterType="string" resultMap="hotplace">
-		select *
+		select user_id, id, name, content, 
+		DATE_FORMAT(visit_time, '%Y-%m-%d') as visit_time, 
+		DATE_FORMAT(write_time, '%Y-%m-%d') as write_time, data_num 
 		from hotplace
 		where id = #{id}
+	</select>
+	
+	<select id="getHotplacId" parameterType="hotplaceDto" resultType="string">
+		select id
+		from hotplace
+		where user_id = #{userId}
+		and name = #{name}
+		and content = #{content}
+		and visit_time = #{visitTime}
+		and data_num = #{dataNum} 
+		order by write_time desc
+		limit 1;
 	</select>
 	
 	<select id="orderByLike" parameterType="string" resultMap="hotplace">
