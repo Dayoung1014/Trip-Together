@@ -26,38 +26,59 @@
       </symbol>
     </svg>
 
-    <div class="container d-flex flex-column">
-      <img src="" class="shadow-lg" alt="" />
-      <footer
-        class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
-      >
-        <div class="col-md-4 d-flex align-items-center">
-          <span class="mb-3 mb-md-0 text-success"
-            >&copy; 2023 Company, Inc</span
+    <div data-v-b93b67e6="" class="mb-4 ml-auto text-center">
+      <div data-v-b93b67e6="" class="row">
+        <div data-v-b93b67e6="" class="ms-auto col-12 align-self-end">
+          <a
+            data-v-b93b67e6=""
+            href="https://edu.ssafy.com/"
+            target="ssafy"
+            title="SSAFY"
           >
+            <img
+              data-v-b93b67e6=""
+              src="/img/ssafy-logo-black.b301994e.png"
+              alt="SSAFY"
+              class="img-ssafy-logo"
+          /></a>
+          <a
+            data-v-b93b67e6=""
+            href="https://www.ssafy.com/"
+            target="_blank"
+            title="SSAFY"
+            ><img
+              data-v-b93b67e6=""
+              src="/img/ssafy-logo-small.bd603755.png"
+              alt="SSAFY"
+              class="img-link" /></a
+          ><a
+            data-v-b93b67e6=""
+            href="https://developers.google.com/maps?hl=ko"
+            target="google api"
+            title="google api"
+            ><img
+              data-v-b93b67e6=""
+              src="/img/google.jpg"
+              alt="google api"
+              class="img-link" /></a
+          ><a
+            data-v-b93b67e6=""
+            href="https://openweathermap.org/api"
+            target="openweathermap"
+            title="openweathermap"
+            ><img
+              data-v-b93b67e6=""
+              src="/img/openweather.jpg"
+              alt="openweathermap"
+              class="img-link"
+          /></a>
         </div>
-
-        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-          <li class="ms-3">
-            <a class="text-muted" href="#"
-              ><svg class="bi" width="24" height="24">
-                <use xlink:href="#twitter" /></svg
-            ></a>
-          </li>
-          <li class="ms-3">
-            <a class="text-muted" href="#"
-              ><svg class="bi" width="24" height="24">
-                <use xlink:href="#instagram" /></svg
-            ></a>
-          </li>
-          <li class="ms-3">
-            <a class="text-muted" href="#"
-              ><svg class="bi" width="24" height="24">
-                <use xlink:href="#facebook" /></svg
-            ></a>
-          </li>
-        </ul>
-      </footer>
+      </div>
+      <div data-v-b93b67e6="" class="row mt-3">
+        <div data-v-b93b67e6="" class="text-center company-info col">
+          &copy; Trip Together 이준용 이다영
+        </div>
+      </div>
     </div>
   </div>
 </template>

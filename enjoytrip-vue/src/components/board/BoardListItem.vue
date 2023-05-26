@@ -1,12 +1,8 @@
 <template>
-  <tr>
+  <tr @click="goToDetail(article.id)">
     <td>{{ article.id }}</td>
-    <router-link :to="'/board/detail/' + article.id">{{
-      article.title
-    }}</router-link>
-    <td>{{ article.content }}</td>
-    <td>{{ article.userName }}</td>
-    <td>{{ article.hit }}</td>
+    <td>{{article.title}}</td>
+    <td>{{ article.userName }}</td> 
     <td>{{ article.writeTime }}</td>
   </tr>
 </template>
@@ -17,6 +13,12 @@ export default {
   props: {
     article: Object,
   },
+  methods : {
+    goToDetail(id) {
+      console.log(id)
+      this.$router.push('/board/detail/' + id);
+    }
+  }
 };
 </script>
 

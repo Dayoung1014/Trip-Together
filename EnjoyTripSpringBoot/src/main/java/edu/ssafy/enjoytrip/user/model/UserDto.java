@@ -6,11 +6,7 @@ public class UserDto {
 	private String pwd;
 	private String email;
 	private int manager;
-	@Override
-	public String toString() {
-		return "userDto [id=" + id + ", name=" + name + ", pwd=" + pwd + ", email=" + email + ", manager=" + manager
-				+ "]";
-	}
+	private String joindate;
 	public String getId() {
 		return id;
 	}
@@ -41,4 +37,17 @@ public class UserDto {
 	public void setManager(int manager) {
 		this.manager = manager;
 	}
+	public String getJoindate() {
+		return joindate;
+	}
+	public void setJoindate(String joindate) {
+		this.joindate = joindate;
+	}
+	@Override
+	public String toString() {
+		return "UserDto [id=" + id + ", name=" + name + ", pwd=" + pwd + ", email=" + email + ", manager=" + manager
+				+ ", joindate=" + joindate + "]";
+	}
+	
+
 }

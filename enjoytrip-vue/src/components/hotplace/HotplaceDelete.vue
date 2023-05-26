@@ -1,6 +1,6 @@
 <template>
   <div class="regist">
-    <h1>SSAFY 글 삭제</h1>
+    <!-- <h1>SSAFY 글 삭제</h1> -->
     <div>삭제중....</div>
   </div>
 </template>
@@ -11,7 +11,7 @@ export default {
   name: "HotplaceDelete",
 
   created() {
-    this.no = this.$route.params.no;
+    this.no = this.$route.params.no; 
 
     axios({
       method: "delete",

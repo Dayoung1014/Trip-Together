@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.ssafy.enjoytrip.plan.model.mapper.PlanMemberMapper">
+
+	<resultMap type="planDto" id="Plan">
+		<result column="user_id" property="userId"/> 
+		<result column="id" property="id"/> 
+		<result column="name" property="name"/>  
+		<result column="start_date" property="startDate"/> 
+		<result column="end_date" property="endDate"/>  
+		<result column="public" property="isPublic"/>  
+	</resultMap>
+	
+	<resultMap type="planMemberDto" id="PlanMember">
+		<result column="plan_id" property="planId"/> 
+		<result column="user_id" property="userId"/> 
+		<result column="id" property="id"/>  
+		<result column="access" property="access"/> 
+		<result column="confirm" property="confirm"/>   
+	</resultMap>
+	
+	<insert id="regiMember">
+	insert into plan_member (plan_id, user_id, access, confirm)
+		values (#{planId}, #{userId}, "0", "0")
+	</insert>
+	
+	
+	<update id="modiMember" parameterType="planMemberDto">
+		update plan_member 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="access != null">access = #{access},</if> 
+			<if test="confirm != null">confirm = #{confirm},</if>  
+		</trim>
+		where id = #{id}
+	</update>
+
+	<delete id="delMember" parameterType="java.util.Map"> 
+	  DELETE FROM plan_member 
+	  WHERE plan_id = #{planId} AND user_id = #{userId}
+	</delete>
+	
+	<select id="listPlanMember" parameterType="String" resultMap="PlanMember">
+		select *
+		from plan_member 
+		where plan_id = #{planId};
+	</select>
+	
+	<select id="listPlanByMember" parameterType="String" resultMap="Plan">
+		SELECT plan.user_id, plan.id, plan.name, 
+		DATE_FORMAT(plan.start_date, '%Y-%m-%d') as start_date,
+		DATE_FORMAT(plan.end_date, '%Y-%m-%d') as end_date,
+		plan.public
+		FROM plan
+		JOIN plan_member ON plan.id = plan_member.plan_id
+        where plan_member.user_id = #{userId};
+	</select>
+	 
+ 
+</mapper>

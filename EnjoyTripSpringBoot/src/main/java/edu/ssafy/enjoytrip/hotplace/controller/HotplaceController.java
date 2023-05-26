@@ -38,12 +38,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -105,8 +107,8 @@ public class HotplaceController {
 		}
 		return map;
 	}  
-	
-	
+ 
+	 
 	// (post) http://localhost:8080/hotplace/
 	/* 
 	 * {"userId" : "ssafy", 
@@ -116,15 +118,14 @@ public class HotplaceController {
 		"img": "",
 		"dataNum": "134007"}
 	 * */
-	@PostMapping //(headers = "content-type=application/json")  
+	@PostMapping
 	public Map<String, Object> writeHotplace(@RequestParam("userId") String userId, 
             @RequestParam("name") String name, 
-            @RequestParam("dataNum") String dataNum,
+            @RequestParam("data_num") String dataNum,
             @RequestParam("content") String content,
             @RequestParam("visitTime") String visitTime,
             @RequestParam("files") List<MultipartFile> files)  {    
 		Map<String, Object> map = new HashMap<String, Object>();
-		
 		
 		System.out.println(files);
 		HotplaceDto hotplace = new HotplaceDto();
@@ -140,9 +141,7 @@ public class HotplaceController {
 		File folder = new File(saveFolder);
 		if (!folder.exists()) {
 			folder.mkdirs();
-		}
-
-		
+		} 
 		try { 
 			hotplaceService.writeHotplace(hotplace);  
 			String hotplaceId = hotplaceService.getHotplacId(hotplace);
@@ -183,10 +182,56 @@ public class HotplaceController {
 		"dataNum": "134007"}
 	 * */
 	@PutMapping("/") 
-	public Map<String, Object> update(@RequestBody HotplaceDto hotplaceDto) {
+	public Map<String, Object> update(@RequestParam("userId") String userId, @RequestParam("id") String id, 
+            @RequestParam("name") String name, 
+            @RequestParam("dataNum") String dataNum,
+            @RequestParam("content") String content,
+            @RequestParam("visitTime") String visitTime,
+            @RequestParam(value= "files", required = false) List<MultipartFile> files,
+            @RequestParam(value= "delete_img_id", required = false) ArrayList delete_img_id) {
+		System.out.println("수정 ");
+		System.out.println(dataNum);
+		System.out.println(delete_img_id.toString());
 		Map<String, Object> map = new HashMap();
+		HotplaceDto hotplace = new HotplaceDto();
+		hotplace.setUserId(userId);
+		hotplace.setId(Integer.parseInt(id));
+		hotplace.setName(name);
+		hotplace.setDataNum(dataNum);
+		hotplace.setContent(content);
+		hotplace.setVisitTime(visitTime);
 		try {
-			hotplaceService.modifyHotplace(hotplaceDto); 
+			hotplaceService.modifyHotplace(hotplace);  // 핫플레이스 내용 수정 
+			
+			String realPath = servletContext.getRealPath("/upload");
+			String today = new SimpleDateFormat("yyMMdd").format(new Date());
+			String saveFolder = realPath + File.separator + today;
+			File folder = new File(saveFolder);
+			if (!folder.exists()) {
+				folder.mkdirs();
+			}  
+			if(files != null) { //추가할 파일이 있는 경우 
+				for(MultipartFile file : files) { 
+					String originalFileName = file.getOriginalFilename();
+					
+					if (!originalFileName.isEmpty()) {  
+						HotplaceFileDto fileDTO = new HotplaceFileDto(String.valueOf(hotplace.getId()), originalFileName, saveFolder);
+						hotplaceFileService.registImg(fileDTO); 
+						file.transferTo(new File(folder, originalFileName));
+						System.out.println(originalFileName);
+						System.out.println(saveFolder);
+						System.out.println(folder.toString()+  File.separator + originalFileName);
+						System.out.println("파일 업로드 성공");
+					}
+				}
+			}
+			
+			if(delete_img_id.size()!=0) { //삭제할 사진이 있는 경우 
+				for(Object delete_id : delete_img_id) {
+					hotplaceFileService.deleteImg(delete_id.toString());
+				}
+			}
+			
 			map.put("status", HttpStatus.OK);
 		} catch (Exception e) { 
 			e.printStackTrace();

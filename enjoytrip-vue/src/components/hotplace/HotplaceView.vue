@@ -1,39 +1,52 @@
 <template>
-  <div class="regist">
-    <h1 class="underline">SSAFY 글 상세보기</h1>
-    <div class="regist_form">
-      <label> 번호</label>
-      <div class="view">{{ article.id }}</div>
-      <label> 제목</label>
-      <div class="view">{{ article.name }}</div>
-      <label> 작성자</label>
-      <div class="view">{{ article.userId }}</div>
-      <label> 사진</label>
-      <div class="view">
-        <img v-for="i_src in img_src" :key="i_src" :src="i_src" alt="테스트" /> 
-        <!-- <img :src="img_src" alt="ssafy.png"> -->
-      </div> 
-      <label> 내용</label>
-      <div class="view">{{ article.content }}</div>
-      <label> 방문일</label>
-      <div class="view">{{ article.visitTime }}</div>
-      <label> 작성일</label>
-      <div class="view">{{ article.writeTime }}</div>
-      
-      <div style="padding-top: 15px">
-        <router-link class="btn" :to="'/hotplace/modify/' + article.id"
-          >수정</router-link
-        >
-        <router-link class="btn" :to="'/hotplace/delete/' + article.id"
-          >삭제</router-link
-        >
-        <router-link class="btn" :to="'/hotplace/list/'">목록</router-link>
+  <div class="regist"> 
+    <div class="view text-start" style="border: none;"></div>
+      <div class="row">
+      <div class="col-6">
+        <div class="row">
+          <div class="view text-start" style="border: none; font-size: 40px">{{ article.name }}</div>
+          <div class="view text-start" style="border: none; font-size: 20px">
+            <b-icon icon="person-fill" font-scale="1" ></b-icon> {{ article.userId }}</div>
+        </div>
+      </div>
+      <div class="col-6 d-flex justify-content-end align-items-end">
+        <div class="view text-end" style="border: none; font-size: 20px">
+          <b-icon icon="pencil" font-scale="1"></b-icon> {{ article.writeTime }}</div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-6"> 
+        <b-carousel id="carouselExample" :interval="5000" controls indicators >
+          <b-carousel-slide
+            v-for="(i_src, index) in img_src"
+            :key="index"
+            :img-src="i_src" 
+          ></b-carousel-slide>
+        </b-carousel>
+      </div>
+      <div class="col-6 d-flex align-items-center justify-content-center" style="flex-direction: column;">
+        <!-- <label> 내용</label> --> 
+        <div class="view text-start" style="border: none; font-size: 20px">{{ article.content }}</div>
+
+        <!-- <label> 장소 </label> -->
+        <div class="view text-start" style="border: none; font-size: 20px">
+          <b-icon icon="geo-alt" font-scale="1"></b-icon> {{ article.dataNum }}</div>
+
+        <!-- <label> 방문일</label> -->
+        <div class="view text-start" style="border: none; font-size: 20px">
+          <b-icon icon="calendar" font-scale="1"></b-icon> {{ article.visitTime }}</div>
+
+      </div>
+      <div class="col-6 offset-6 d-flex justify-content-end" style="padding-top: 15px">
+        <b-button  v-if="this.userId === article.userId" class="btn"  @click="$router.push('/hotplace/modify/' + article.id)" variant="outline-dark" style="width:10%">수정</b-button>
+        <b-button  v-if="this.userId === article.userId" class="btn"  @click="$router.push('/hotplace/delete/' + article.id)" variant="outline-dark" style="width:10%">삭제</b-button>
+        <b-button class="btn"  @click="$router.push('/hotplace/list/')" variant="outline-dark" style="width:10%">목록</b-button>
       </div>
     </div>
   </div>
-</template>
-<!-- 사진 나오게 하는 div 추가 후 article_img 배열 만큼 돌면서 img 뿌려주기-->
-<!-- 클라이언트에서 서버의 사진 접근을 어떻게 ? -->
+</template> 
+
 <script>
 import axios from "axios";
 
@@ -44,11 +57,20 @@ export default {
     return {
       article: {},
       article_img : {},
-      img_src : []
+      img_src : [],
+      userId:{}
     };
   },
 
   created() {
+        // 현재 세션 스토리지에서 "vuex" 키의 값을 가져오기
+        const vuexData = sessionStorage.getItem("vuex");
+    const userData = JSON.parse(vuexData);
+    console.log(userData)
+    // userInfo의 id 값 가져오기
+    this.userId = userData.memberStore.userInfo.id;
+    console.log(this.userId)
+
     this.no = this.$route.params.no;
 
     axios({
@@ -67,14 +89,29 @@ export default {
         for (let i = 0; i < this.article_img.length; i++) {
           this.img_src[i] = "http://localhost:8080/upload"+this.article_img[i].path.split('upload')[1] +"/"+this.article_img[i].name ;
           console.log(this.img_src[i])
-        }
-        
-       
-        
+        }  
       })
       .catch((error) => console.log(error));
   },
 };
 </script>
 
-<style></style>
+<style>
+.carousel-control-prev span {
+  display: none !important;
+}
+
+.carousel-control-prev::before {
+  content: "<";
+  font-size: 40px;
+}
+
+.carousel-control-next span {
+  display: none !important;
+}
+
+.carousel-control-next::before {
+  content: ">";
+  font-size: 40px;
+}
+</style>

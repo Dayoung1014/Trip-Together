@@ -61,23 +61,21 @@ public class RestPlanController {
 		this.service = planService;
 	}
 	
-	@PostMapping(value = "/write")
+	@PostMapping("/") 
 	public ResponseEntity<?> planRegister(@RequestBody PlanDto planDto,
 			@RequestParam Map<String, String> map) {
 		try {
-			service.writeArticle(planDto);
-			List<PlanDto> list = service.listArticle(map);
-			return new ResponseEntity<List<PlanDto>>(list, HttpStatus.OK);
+			service.writeArticle(planDto); 
+			return new ResponseEntity<List<PlanDto>>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
 	}
 	
-	
-	@GetMapping(value = "/list")
-	public ResponseEntity<?> planList(@RequestParam Map<String, String> map) {
+	@GetMapping("/")
+	public ResponseEntity<?> planListAll() {
 		try {
-			List<PlanDto> list = service.listArticle(map);
+			List<PlanDto> list = service.listArticleAll();
 			System.out.println(list.size());
 			if(list != null && !list.isEmpty()) {
 				return new ResponseEntity<List<PlanDto>>(list, HttpStatus.OK);
@@ -85,12 +83,28 @@ public class RestPlanController {
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 			}
 		} catch (Exception e) {
-			return exceptionHandling(e);
+			return exceptionHandling(e);  
 		}
 	}
 	
-	@GetMapping(value = "/list/{id}")
+	@GetMapping("/{user_id}")
+	public ResponseEntity<?> planList(@PathVariable("user_id") String userId) {
+		try {
+			List<PlanDto> list = service.listArticleMy(userId);
+			System.out.println(list.size());
+			if(list != null && !list.isEmpty()) {
+				return new ResponseEntity<List<PlanDto>>(list, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+			}
+		} catch (Exception e) {
+			return exceptionHandling(e);  
+		}
+	}
+	
+	@GetMapping("/detail/{id}")
 	public ResponseEntity<?> planInfo(@PathVariable("id") int id) {
+		System.out.println(id);
 		try {
 			PlanDto planDto = service.getArticle(id);
 			if(planDto != null)
@@ -102,25 +116,21 @@ public class RestPlanController {
 		}
 	}
 	
-	@PutMapping(value = "/modify")
-	public ResponseEntity<?> planModify(@RequestBody PlanDto planDto,
-			@RequestParam Map<String, String> map) {
+	@PutMapping("/")
+	public ResponseEntity<?> planModify(@RequestBody PlanDto planDto) {
 		try {
-			service.modifyArticle(planDto);
-			List<PlanDto> list = service.listArticle(map);
-			return new ResponseEntity<List<PlanDto>>(list, HttpStatus.OK);
+			service.modifyArticle(planDto); 
+			return new ResponseEntity<List<PlanDto>>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
 	}
 	
-	@DeleteMapping(value = "/delete/{id}")
-	public ResponseEntity<?> planDelete(@PathVariable("id") int id,
-			@RequestParam Map<String, String> map) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> planDelete(@PathVariable("id") int id) {
 		try {
-			service.deleteArticle(id, null);
-			List<PlanDto> list = service.listArticle(map);
-			return new ResponseEntity<List<PlanDto>>(list, HttpStatus.OK);
+			service.deleteArticle(id, null); 
+			return new ResponseEntity<List<PlanDto>>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}

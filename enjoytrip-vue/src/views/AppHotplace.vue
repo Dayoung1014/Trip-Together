@@ -1,25 +1,21 @@
 <template>
   <div>
-    <h2>Hotplace</h2> 
+    <!-- <h2>Hotplace</h2>  -->
     <router-view></router-view>
   </div>
 </template>
 
-<script> 
-
+<script>
 export default {
   name: "AppHotplace",
-  components : { 
-  },
+  components: {},
   data() {
-    return {
- 
-    };
-  }
+    return {};
+  },
 };
 </script>
 
-<style>
+<style scope>
 .underline {
   display: inline-block;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 70%, cyan 30%);

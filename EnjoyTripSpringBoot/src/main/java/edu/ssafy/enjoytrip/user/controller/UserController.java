@@ -31,16 +31,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.ssafy.enjoytrip.user.model.UserDto;
+import edu.ssafy.enjoytrip.user.model.service.JwtServiceImpl;
 import edu.ssafy.enjoytrip.user.model.service.UserService;
 
-@RestController
-@RequestMapping(value = "/user")
-@CrossOrigin("*") // 모든 요청 허용
+//@RestController
+//@RequestMapping(value = "/user")
+//@CrossOrigin("*") // 모든 요청 허용
 public class UserController {
 private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
-	private UserService userService; 
+	private UserService userService;  
 	
 	// (get) http://localhost:8080/user/가입할아이디
 	@GetMapping("/{userid}") 

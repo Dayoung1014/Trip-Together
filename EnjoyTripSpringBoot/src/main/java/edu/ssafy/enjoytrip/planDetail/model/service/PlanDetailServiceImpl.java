@@ -21,8 +21,11 @@ public class PlanDetailServiceImpl implements PlanDetailService{
 	}
 
 	@Override
-	public void writePlanDetai(PlanDetailDto planDetailDto) throws SQLException {
-		planDetailMapper.writePlanDetai(planDetailDto);
+	public void writePlanDetail(PlanDetailDto[] planDetailDto) throws SQLException {
+		for(PlanDetailDto in:planDetailDto) {
+			planDetailMapper.writePlanDetail(in);
+		}
+		
 	}
 
 	// 플랜 번호로 경로 마지막 여행지 찾기 (추가 위해)

@@ -13,20 +13,17 @@ import edu.ssafy.enjoytrip.plan.model.PlanDto;
 public interface PlanMapper {
 
 	void writeArticle(PlanDto planDto) throws SQLException;
+ 
 
-	void registerFile(PlanDto planDto) throws Exception;
+	List<PlanDto> listArticleMy(String userId) throws SQLException;
 
-	List<PlanDto> listArticle(Map<String, Object> param) throws SQLException;
-
-	int getTotalArticleCount(Map<String, Object> param) throws SQLException;
+	List<PlanDto> listArticleAll() throws SQLException; //공개인 것들만 다 가져오기 
+	 
 
 	PlanDto getArticle(int articleNo) throws SQLException;
-
-	void updateHit(int articleNo) throws SQLException;
-
+ 
 	void modifyArticle(PlanDto planDto) throws SQLException;
-
-	void deleteFile(int articleNo) throws Exception;
+ 
 
 	void deleteArticle(int articleNo) throws SQLException;
 

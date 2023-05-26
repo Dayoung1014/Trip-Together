@@ -69,6 +69,7 @@ public class RestBoardController {
 	@PostMapping  
 	public ResponseEntity<?> boardRegister(@RequestBody BoardDto boardDto,
 			@RequestParam Map<String, String> map) {
+		System.out.println(boardDto);
 		try {
 			service.writeArticle(boardDto);
 			System.out.println(boardDto);

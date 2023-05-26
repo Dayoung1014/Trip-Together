@@ -9,10 +9,11 @@ public class PlanDto {
 	private String name;
 	private String startDate;
 	private String endDate;
+	private String isPublic;
 	@Override
 	public String toString() {
 		return "PlanDto [id=" + id + ", userId=" + userId + ", name=" + name + ", startDate=" + startDate + ", endDate="
-				+ endDate + "]";
+				+ endDate + ", isPublic=" + isPublic + "]";
 	}
 	public int getId() {
 		return id;
@@ -44,6 +45,14 @@ public class PlanDto {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
+	public String getIsPublic() {
+		return isPublic;
+	}
+	public void setIsPublic(String isPublic) {
+		this.isPublic = isPublic;
+	}
+	
+ 
 	
 
 	

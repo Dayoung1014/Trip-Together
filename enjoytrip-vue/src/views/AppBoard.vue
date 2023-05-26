@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Vue를 이용한 게시판</h2>
+    <!-- <h2>Vue를 이용한 게시판</h2> -->
     <router-view></router-view>
   </div>
 </template>
@@ -59,7 +59,7 @@ button,
 }
 
 #article-list thead {
-  background-color: #ccc;
+  background-color: white;
   font-weight: bold;
 }
 
@@ -71,7 +71,7 @@ button,
 }
 
 tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: white;
 }
 
 .regist {
@@ -80,7 +80,7 @@ tr:nth-child(even) {
 
 .regist_form {
   border-radius: 5px;
-  background-color: #f2f2f2;
+  background-color: white !important;
   padding: 20px;
 }
 </style>

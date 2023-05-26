@@ -7,20 +7,27 @@
 	<resultMap type="planDetailDto" id="PlanDetail">
 		<result column="plan_id" property="planId"/> 
 		<result column="detail_id" property="detailId"/>  
-		<result column="data_num" property="dataNum"/> 
+		<result column="name" property="name"/>
+		<result column="address" property="address"/> 
 		<result column="route" property="route"/>  
+		<result column="lat" property="lat"/>
+		<result column="lng" property="lng"/>
+		<result column="photoUrl" property="photoUrl"/>
+		<result column="price" property="price"/>
+		<result column="memo" property="memo"/>
 	</resultMap>
 	
  	<select id="getRouteList" parameterType="String" resultMap="PlanDetail">
 		select *
 		from plan_detail
-		where plan_id = #{planId} and route is NULL;
+		where plan_id = #{planId}
+		order by route asc;
 	</select>
  
   	<select id="getPlanDetail" parameterType="String" resultMap="PlanDetail">
 		select *
 		from plan_detail
-		where plan_id = #{planId} and data_num = #{dataNum} and route is #{route};
+		where plan_id = #{planId} and address = #{address} and route is #{route};
 	</select>
  
  
@@ -33,13 +40,14 @@
 	<select id="listPlanDetail" parameterType="String" resultMap="PlanDetail">
 		select *
 		from plan_detail
-		where plan_id = #{planId};
+		where plan_id = #{planId}
+		order by route asc;
 	</select>
 	
 	
-	<insert id="writePlanDetai" parameterType="planDetailDto">
-		insert into plan_detail (plan_id, data_num, route)
-		values (#{planId}, #{dataNum}, #{route})
+	<insert id="writePlanDetail" parameterType="planDetailDto">
+		insert into plan_detail (plan_id, name, address, route, lat, lng, photoUrl, price, memo)
+		values (#{planId}, #{name}, #{address}, #{route}, #{lat}, #{lng}, #{photoUrl}, #{price}, #{memo})
 	</insert>
  
 	
@@ -53,6 +61,6 @@
 	
 	<delete id="deletePlanDetail" parameterType="String">
 		delete from plan_detail
-		where detail_id = #{detailId};
+		where plan_id = #{planId};
 	</delete>
 </mapper>

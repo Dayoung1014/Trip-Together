@@ -24,9 +24,18 @@
 		select user_id, id, name, content, 
 		DATE_FORMAT(visit_time, '%Y-%m-%d') as visit_time, 
 		DATE_FORMAT(write_time, '%Y-%m-%d') as write_time, data_num 
-		from hotplace;
+		from hotplace
+		order by id desc
 	</select>
 
+<!-- 	<select id="listHotplace" resultMap="hotplace">
+		SELECT hp.user_id, hp.id, hp.name, hp.content, 
+       	DATE_FORMAT(hp.visit_time, '%Y-%m-%d') as visit_time, 
+       	DATE_FORMAT(hp.write_time, '%Y-%m-%d') as write_time, hp.data_num,
+       	hf.fid, hf.name, hf.path,
+		FROM hotplace hp
+		JOIN hotplace_file hf ON hp.id = hf.hotplace_id;
+	</select> -->
 
 	<update id="modifyHotplace" parameterType="hotplaceDto">
 		update hotplace

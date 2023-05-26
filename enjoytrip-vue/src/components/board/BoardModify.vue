@@ -1,16 +1,22 @@
 <template>
   <div class="regist">
-    <h1 class="underline">SSAFY 게시글 수정</h1>
+    <!-- <h1 class="underline">Notice 수정</h1> -->
     <div class="regist_form">
-      <label for="userName">작성자</label>
+      <!-- <label for="userName">작성자</label>
       <input
         v-model="data.userName"
         type="text"
         id="userName"
         ref="userName"
-      /><br />
+      /><br /> -->
       <label for="title">제목</label>
-      <input v-model="data.title" type="text" id="title" ref="title" /><br />
+      <input
+        style="width: 100%"
+        v-model="data.title"
+        type="text"
+        id="title"
+        ref="title"
+      /><br />
       <label for="content">내용</label>
       <br />
       <textarea
@@ -21,8 +27,17 @@
         rows="5"
       ></textarea
       ><br />
-      <button @click="checkValue">수정</button>
-      <button @click="moveList">목록</button>
+      <div
+        style="padding-top: 15px"
+        class="col-6 offset-6 d-flex justify-content-end"
+      >
+        <b-button @click="checkValue" variant="outline-dark" style="width: 10%"
+          >수정</b-button
+        >
+        <b-button @click="moveList" variant="outline-dark" style="width: 10%"
+          >목록</b-button
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -40,6 +55,7 @@ export default {
         title: "",
         no: "",
       },
+      manager: {},
     };
   },
 
@@ -50,12 +66,8 @@ export default {
       // 작성자아이디, 제목, 내용이 없을 경우 각 항목에 맞는 메세지를 출력
       let err = true;
       let msg = "";
-      !this.data.userName &&
-        ((msg = "작성자 입력해주세요"),
-        (err = false),
-        this.$refs.userName.focus());
-      err &&
-        !this.data.title &&
+
+      !this.data.title &&
         ((msg = "제목 입력해주세요"), (err = false), this.$refs.title.focus());
       err &&
         !this.data.content &&
@@ -87,6 +99,18 @@ export default {
   },
 
   created() {
+    // 현재 세션 스토리지에서 "vuex" 키의 값을 가져오기
+    const vuexData = sessionStorage.getItem("vuex");
+    const userData = JSON.parse(vuexData);
+    // userInfo의 id 값 가져오기
+    this.manager = userData.memberStore.userInfo.manager;
+
+    if (this.manager !== 1) {
+      alert("관리자가 아닙니다.");
+      this.$router.push("/board/list");
+      return;
+    }
+
     this.no = this.$route.params.no;
     console.log(this.no);
 

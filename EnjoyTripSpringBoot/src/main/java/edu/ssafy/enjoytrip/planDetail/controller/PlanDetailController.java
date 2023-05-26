@@ -53,31 +53,11 @@ public class PlanDetailController {
 	            "dataNum": 125266
 	}
 	 * */
-	@PostMapping(headers = "content-type=application/json")  
-	public Map<String, String> writePlanDetail (@RequestBody PlanDetailDto planDetailDto)  {
+	@PostMapping
+	public Map<String, String> writePlanDetail (@RequestBody PlanDetailDto[] planDetailDto)  {
 		Map<String, String> map = new HashMap();
 		try {
-			PlanDetailDto lastDto = planDetailService.getRouteList(planDetailDto.getPlanId());
-			if(lastDto == null) {
-				// 해당 plan의 첫 여행지인 경우 
-				planDetailDto.setRoute(null);
-				planDetailService.writePlanDetai(planDetailDto);
-			}
-			else {
-				// 해당 plan의 여행지들이 존재하는 경우 
-				
-				// 마지막 경로로 추가 
-				planDetailDto.setRoute(null);
-				planDetailService.writePlanDetai(planDetailDto);
-				System.out.println(planDetailDto);
-				
-				// 추가한 dto 가져오기 
-				PlanDetailDto writeDto = planDetailService.getPlanDetail(planDetailDto.getPlanId(), planDetailDto.getDataNum(), planDetailDto.getRoute());
-				System.out.println(writeDto);
-				// 원래 마지막 경로였던 곳 route에 추가한 여행지의 id 넣어주기 
-				lastDto.setRoute(writeDto.getDetailId());
-				planDetailService.modifyPlanDetail(lastDto);
-			} 
+			planDetailService.writePlanDetail(planDetailDto);
 			map.put("msg", "입력성공");
 		} catch (Exception e) { 
 			e.printStackTrace();
@@ -88,43 +68,16 @@ public class PlanDetailController {
 
 	
 
-	
-	//여행지 route 수정하기 
-	//(post) http://localhost:8080/수정할 여행지의 원래앞자리id/수정할 여행지의 옮긴후앞자리 id
-	@PostMapping(value="/{originPrevId}/{insertPrevId}", headers = "content-type=application/json")  
-	public Map<String, String> modifyPlanDetail (@PathVariable("originPrevId") String originPrevId,@PathVariable("insertPrevId") String insertPrevId, @RequestBody PlanDetailDto planDetailDto)  {
-		Map<String, String> map = new HashMap();
-		try {
-			// originPrevId route = planDetailDto route
-			PlanDetailDto originPrevDto =  planDetailService.getPlanDetailById(originPrevId);
-			originPrevDto.setRoute(planDetailDto.getRoute());
-			planDetailService.modifyPlanDetail(originPrevDto);
-			
-			// planDetailDto route = insertPrevId route
-			PlanDetailDto insertPrevDto =  planDetailService.getPlanDetailById(insertPrevId);
-			planDetailDto.setRoute(insertPrevDto.getRoute());
-			planDetailService.modifyPlanDetail(planDetailDto);
-			
-			// insertPrevId route = planDetailDto의 detailId
-			insertPrevDto.setRoute(planDetailDto.getDetailId());
-			planDetailService.modifyPlanDetail(insertPrevDto);
-			map.put("msg", "입력성공");
-		} catch (Exception e) { 
-			e.printStackTrace();
-			map.put("msg", "입력실패");
-		}
-		return map;
-	}
 	
 	
 	
 	//여행지 삭제하기 
 	// (delete) http://localhost:8080/planDetail/4
-	@DeleteMapping("/{detailId}") 
-	public Map<String, String> delete(@PathVariable("detailId") String detailId) {
+	@DeleteMapping("/{planId}") 
+	public Map<String, String> delete(@PathVariable("planId") String planId) {
 		Map<String, String> map = new HashMap();
 		try {
-			planDetailService.deletePlanDetail(detailId);
+			planDetailService.deletePlanDetail(planId);
 			map.put("resmsg", "삭제성공");
 		} catch (Exception e) { 
 			e.printStackTrace();

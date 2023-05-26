@@ -1,9 +1,7 @@
 <template>
-  <tr>
+  <tr @click="goToDetail(article.id)">
     <td>{{ article.id }}</td>
-    <router-link :to="'/hotplace/detail/' + article.id"><td>{{
-      article.name
-    }}</td></router-link>
+    <td>{{article.name}}</td> 
     <td>{{ article.userId }}</td> 
     <td>{{ article.visitTime }}</td>
     <td>{{ article.writeTime }}</td>
@@ -16,6 +14,12 @@ export default {
   props: {
     article: Object,
   },
+  methods : {
+    goToDetail(id) {
+      console.log(id)
+      this.$router.push('/hotplace/detail/' + id);
+    }
+  }
 };
 </script>
 

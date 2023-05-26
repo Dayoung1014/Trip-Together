@@ -1,5 +1,7 @@
 package edu.ssafy.enjoytrip.user.model.service;
 
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -59,6 +61,34 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteMember(String userId) throws Exception {
 		userMapper.deleteUser(userId);		
+	}
+ 
+	@Override
+	public void saveRefreshToken(String userId, String refreshToken) throws Exception {
+	    Map<String, String> map = new HashMap<String, String>();
+	    map.put("userid", userId);
+	    map.put("token", refreshToken);  
+		userMapper.saveRefreshToken(map);
+	}
+
+	@Override
+	public Object getRefreshToken(String userId) throws Exception {
+		return userMapper.getRefreshToken(userId);
+	    //return sqlSession.getMapper(MemberMapper.class).getRefreshToken(userid);
+	}
+
+	@Override
+	public void deleRefreshToken(String userId) throws Exception {
+	    Map<String, String> map = new HashMap<String, String>();
+	    map.put("userid", userId);
+	    map.put("token", null);
+	    userMapper.deleteRefreshToken(map);
+//	    sqlSession.getMapper(MemberMapper.class).deleteRefreshToken(map);
+	}
+	
+	@Override
+	public UserDto userInfo(String userId) throws Exception {
+	    return userMapper.userInfo(userId);
 	}
 		
 }

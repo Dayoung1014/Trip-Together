@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h1 class="underline">도서 목록</h1>
+    <!-- <h1 class="underline">Hotplace 글 목록</h1> -->
     <div style="text-align: right">
-      <button @click="$router.push('/hotplace/write')" class="btn btn-primary">
-        도서 등록
-      </button>
+      <b-button @click="$router.push('/plan/write')" class="btn" variant="outline-dark">
+        일정 등록
+      </b-button>
     </div>
     <div v-if="articles.length">
       <table id="article-list">
@@ -54,11 +54,12 @@ export default {
   created() {
     axios.get('http://localhost:8080/hotplace/')
   .then(response => { 
-    this.articles = response.data.data;
+    this.articles = response.data.data;   
   })
   .catch(error => {
     console.error(error);
   });
+  
   },
 };
 </script>

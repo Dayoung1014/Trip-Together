@@ -1,8 +1,12 @@
 <template>
   <div id="app">
     <the-header></the-header>
-    <router-view></router-view>
-    <the-footer></the-footer>
+    <div class="router-view-container m-0">
+      <router-view></router-view>
+    </div>
+    <div class="py3-3 mt-auto">
+      <the-footer></the-footer>
+    </div>
   </div>
 </template>
 
@@ -19,16 +23,25 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #app {
+  margin-top: 0px !important;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  /* position: relative; */
 }
 
 a {
   text-decoration: none;
+}
+
+.router-view-container {
+  /* padding: 100px 100px; */
+  padding: 0 100px;
+  position: relative; /* 추가 */
+  height: 140vh; /* 추가 */
 }
 </style>
