@@ -1,1 +1,1 @@
-# EnjoyTrip
+# Trip Together
